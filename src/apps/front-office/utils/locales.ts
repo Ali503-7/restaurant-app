@@ -666,4 +666,8 @@ groupedTranslations({
     en: "Submit",
     ar: "ارسل",
   },
+  goBack: {
+    en: "Go back",
+    ar: "العودة",
+  },
 });

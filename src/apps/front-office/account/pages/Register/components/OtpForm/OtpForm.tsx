@@ -1,10 +1,14 @@
 import { trans } from "@mongez/localization";
 import { Form } from "@mongez/react-form";
-import { OTPEmailAtom } from "apps/front-office/account/atoms/auth-atoms";
+import {
+  OTPEmailAtom,
+  loginNeedVerifyAtom,
+} from "apps/front-office/account/atoms/auth-atoms";
 import { OptInput } from "apps/front-office/account/components/OptInput";
 import { useCreateAccountVerifyCode } from "apps/front-office/account/hooks";
 import { SubmitButton } from "apps/front-office/design-system/components/Button";
 import { BsEnvelopeCheck } from "react-icons/bs";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 export type OtpFormProps = {
   otpEmail: string;
@@ -37,6 +41,10 @@ export default function OtpForm() {
         />
         <SubmitButton>{trans("continue")}</SubmitButton>
       </Form>
+
+      <button onClick={() => loginNeedVerifyAtom.reset()}>
+        <IoIosArrowRoundBack /> {trans("goBack")}
+      </button>
     </>
   );
 }

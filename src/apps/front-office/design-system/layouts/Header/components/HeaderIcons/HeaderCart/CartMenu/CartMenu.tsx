@@ -11,8 +11,8 @@ export default function CartMenu() {
       <div
         className={`fixed hidden md:block z-50 top-0 bottom-0 h-screen rtl:left-0 ltr:right-0 w-1/4 bg-white transition-all ${
           !groupState.cartIcon
-            ? "ltr:translate-x-full rtl:-translate-x-full "
-            : "translate-x-0 shadow-list"
+            ? "ltr:translate-x-full rtl:-translate-x-full invisible"
+            : "translate-x-0 shadow-list visible"
         }`}>
         <CartProducts />
       </div>
