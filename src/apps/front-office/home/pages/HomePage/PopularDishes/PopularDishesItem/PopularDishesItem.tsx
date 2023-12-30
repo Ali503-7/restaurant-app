@@ -1,137 +1,76 @@
 import { trans } from "@mongez/localization";
-import Blueberry from "assets/images/menuItems/blueberry.png";
-import lemon from "assets/images/menuItems/lemon.png";
-import Pizza from "assets/images/menuItems/pizza.png";
-import Pizza2 from "assets/images/menuItems/pizza2.png";
-import { AiFillHeart } from "react-icons/ai";
+import { Link } from "@mongez/react-router";
+import Stars from "apps/front-office/design-system/components/Stars";
+import MealCardFavorite from "apps/front-office/menu/pages/MealDetailsPage/components/MealCard/MealCardFavorite";
+import { Meal } from "apps/front-office/menu/pages/MealDetailsPage/utils/types";
+import URLS from "apps/front-office/utils/urls";
 import { TbShoppingBag } from "react-icons/tb";
-import DetailsButton from "../DetailsButton";
-import styles from "./styles.module.scss";
+import useCart from "shared/hooks/useCart";
 
-export type PopularDishesItemProps = {
-  children: React.ReactNode;
+export type PopularDishesProps = {
+  meals: Meal[];
 };
-export default function PopularDishesItem() {
+
+export default function PopularDishesItem({ meals }: PopularDishesProps) {
+  const { addMealToCart } = useCart();
+
   return (
-    <>
-      <div className={styles.cardContainer}>
-        <div className="container">
-          <div className={styles.PopularDishesItemWrapper}>
-            <div className={styles.PopularDishesItem}>
-              <div className={styles.heartIcon}>
-                <AiFillHeart color="#ddd" fill="#ddd" size={30}></AiFillHeart>
-              </div>
-              <div className={styles.imageWrapper}>
-                <div className={styles.image}>
-                  <img src={Pizza2} />
+    <div className="container grid grid-cols-4 gap-5">
+      {meals.slice(0, 8).map(meal => {
+        return (
+          <div
+            className="p-3 group rounded-[2rem] border relative"
+            key={meal.id}>
+            <MealCardFavorite meal={meal} />
+            <Link
+              to={URLS.menu.viewMeal(meal)}
+              className="h-64 relative overflow-hidden flex items-center justify-center cursor-pointer rounded-3xl">
+              <img
+                src={meal.image.url + "?w=200&h=200"}
+                alt={meal.name}
+                width={200}
+                height={200}
+                className="group-hover:scale-125 z-10 rounded-full transition-transform duration-300"
+              />
+              <span className="absolute bottom-0 left-0 w-full h-1/2 bg-primary-main rounded-3xl group-hover:bg-opacity-100 group-hover:h-full transition-all duration-300 bg-opacity-10"></span>
+            </Link>
+            <div className="mt-6 space-y-2 m-3">
+              <Stars ratings={meal.ratings} />
+              <Link
+                to={URLS.menu.viewMeal(meal)}
+                className="font-bold text-lg inline-block">
+                {meal.name}
+              </Link>
+              <p title={meal.description} className="line-clamp-2 font-light">
+                {meal.description}
+              </p>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex gap-2">
+                  {meal.salePrice && (
+                    <span className="inline-block text-secondary">
+                      {meal.salePrice}
+                    </span>
+                  )}
+                  <span
+                    className={`inline-block  ${
+                      meal.salePrice
+                        ? "text-black line-through"
+                        : "text-primary-main"
+                    }`}>
+                    {meal.price}
+                  </span>
                 </div>
-              </div>
-              <div className={styles.info}>
-                <h3>{trans("Italiano")}</h3>
-                <p>
-                  Ricotta, sun dried tomatoes, garlic, mozzarella cheese, topped
-                  with lightly
-                </p>
-                <del className={styles.itemPriceDel}>£12.63 </del>
-                <span className={styles.itemPrice}>£12.63</span>
-                <div className={styles.shopCard}>
+                <button
+                  onClick={() => addMealToCart(meal.id, 1)}
+                  title={trans("addToCart")}
+                  className="bg-primary-main p-2 rounded-2xl hover:bg-primary-hover transition-colors">
                   <TbShoppingBag color="#000"></TbShoppingBag>
-                </div>
-              </div>
-            </div>
-            {/*  */}
-            <div className={styles.PopularDishesItem}>
-              <div className={styles.heartIcon}>
-                <AiFillHeart color="red" fill="red" size={30}></AiFillHeart>
-              </div>
-              <div className={styles.imageWrapper}>
-                <div className={styles.image}>
-                  <img src={lemon} />
-                </div>
-              </div>
-              <div className={styles.info}>
-                <h3>Italiano Original</h3>
-                <p>
-                  Ricotta, sun dried tomatoes, garlic, mozzarella cheese, topped
-                  with lightly
-                </p>
-                <span className={styles.itemPrice}>£12.63</span>
-                <div className={styles.shopCard}>
-                  <TbShoppingBag color="#000"></TbShoppingBag>
-                </div>
-              </div>
-            </div>
-            {/*  */}
-            <div className={styles.PopularDishesItem}>
-              <div className={styles.heartIcon}>
-                <AiFillHeart color="red" fill="red" size={30}></AiFillHeart>
-              </div>
-              <div className={styles.imageWrapper}>
-                <div className={styles.image}>
-                  <img src={Blueberry} />
-                </div>
-              </div>
-              <div className={styles.info}>
-                <h3>{trans("Blueberry")}</h3>
-                <p>
-                  Ricotta, sun dried tomatoes, garlic, mozzarella cheese, topped
-                  with lightly
-                </p>
-                <del className={styles.itemPriceDel}>£12.63 </del>
-                <span className={styles.itemPrice}>£12.63</span>
-                <div className={styles.shopCard}>
-                  <TbShoppingBag color="#000"></TbShoppingBag>
-                </div>
-              </div>
-            </div>
-            {/*  */}
-            <div className={styles.PopularDishesItem}>
-              <div className={styles.heartIcon}>
-                <AiFillHeart color="red" fill="red" size={30}></AiFillHeart>
-              </div>
-              <div className={styles.imageWrapper}>
-                <div className={styles.image}>
-                  <img src={Pizza} />
-                </div>
-              </div>
-              <div className={styles.info}>
-                <h3>{trans("Italiano")} </h3>
-                <p>
-                  Ricotta, sun dried tomatoes, garlic, mozzarella cheese, topped
-                  with lightly
-                </p>
-                <span className={styles.itemPrice}>£12.63</span>
-                <div className={styles.shopCard}>
-                  <TbShoppingBag color="#000"></TbShoppingBag>
-                </div>
-              </div>
-            </div>
-            {/*  */}
-            <div className={styles.PopularDishesItem}>
-              <div className={styles.heartIcon}>
-                <AiFillHeart color="red" fill="red" size={30}></AiFillHeart>
-              </div>
-              <div className={styles.imageWrapper}>
-                <div className={styles.image}>
-                  <img src={Pizza2} />
-                </div>
-              </div>
-              <div className={styles.info}>
-                <h3>Italiano Original</h3>
-                <p>
-                  Ricotta, sun dried tomatoes, garlic, mozzarella cheese, topped
-                  with lightly
-                </p>
-                <span className={styles.itemPrice}>£12.63</span>
-                <div className={styles.shopCard}>
-                  <TbShoppingBag color="#000"></TbShoppingBag>
-                </div>
+                </button>
               </div>
             </div>
           </div>
-          <DetailsButton />
-        </div>
-      </div>
-    </>
+        );
+      })}
+    </div>
   );
 }
