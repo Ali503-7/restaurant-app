@@ -3,6 +3,7 @@ import { Link } from "@mongez/react-router";
 import Stars from "apps/front-office/design-system/components/Stars";
 import MealCardFavorite from "apps/front-office/menu/pages/MealDetailsPage/components/MealCard/MealCardFavorite";
 import { Meal } from "apps/front-office/menu/pages/MealDetailsPage/utils/types";
+import { price } from "apps/front-office/utils/price";
 import URLS from "apps/front-office/utils/urls";
 import { TbShoppingBag } from "react-icons/tb";
 import useCart from "shared/hooks/useCart";
@@ -46,9 +47,9 @@ export default function PopularDishesItem({ meals }: PopularDishesProps) {
               </p>
               <div className="flex items-center justify-between gap-4">
                 <div className="flex gap-2">
-                  {meal.salePrice && (
+                  {!meal.salePrice === false && (
                     <span className="inline-block text-secondary">
-                      {meal.salePrice}
+                      {price(meal?.salePrice)}
                     </span>
                   )}
                   <span
@@ -57,7 +58,7 @@ export default function PopularDishesItem({ meals }: PopularDishesProps) {
                         ? "text-black line-through"
                         : "text-primary-main"
                     }`}>
-                    {meal.price}
+                    {price(meal.price)}
                   </span>
                 </div>
                 <button
